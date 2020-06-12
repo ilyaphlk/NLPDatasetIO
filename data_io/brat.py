@@ -1,7 +1,6 @@
-from ..document import Document, Entity
-from ..dataset import Dataset
+from NLPDatasetIO.document import Document, Entity
 from typing import List
-from .utils import find_offset, read_file
+from NLPDatasetIO.data_io.utils import find_offset, read_file
 from glob import glob
 import os
 import re
@@ -69,5 +68,5 @@ def read_from_brat(path_to_brat_folder):
     return document
 
 
-def save_brat(path_to_save: str, data: Dataset):
+def save_brat(path_to_save: str, data):
     pass

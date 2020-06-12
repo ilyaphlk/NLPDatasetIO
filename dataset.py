@@ -1,12 +1,12 @@
-from data_io import load_functions, save_functions
-from document import Document
+from NLPDatasetIO.data_io import load_functions, save_functions
+from NLPDatasetIO.document import Document
 from typing import List
 
 
 class Dataset:
 
     def __init__(self, location: str, format: str, split='train'):
-        self.location
+        self.location = location
         self.documents = self.read(location, format)
         self.split = split
 

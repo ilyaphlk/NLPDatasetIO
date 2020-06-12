@@ -45,7 +45,7 @@ class Document:
             self.tokenize: Callable = word_tokenize
         else:
             self.tokenize: Callable = tokenize
-        self._tokens: List[Token] = self.token_level_labeling(text, entities, tokenize)
+        self._tokens: List[Token] = self.token_level_labeling()
         self.shift: int = shift
 
     def etype_to_bio_label(self, label: str, token_idx: int) -> str:
@@ -62,7 +62,7 @@ class Document:
             label = self.etype_to_bio_label(etype, token_idx)
             token_start = text.find(token, search_start_pos_idx)
             token_end = token_start + len(token)
-            tokens.append(Token(token=token, start=token_start, end=token_end, label=label))
+            tokens.append(Token(token=token, token_start=token_start, token_end=token_end, label=label))
             search_start_pos_idx = token_end
         return tokens
 
@@ -75,7 +75,7 @@ class Document:
             entity_part = self.text[entity['start']:entity['end']]
             processed_tokens += self.tokenize_with_spans(no_entity_part, 'O')
             processed_tokens += self.tokenize_with_spans(entity_part, entity['type'])
-        no_entity_part = self.text[prev_entity_end:entity['start']]
+        no_entity_part = self.text[prev_entity_end:]
         processed_tokens += self.tokenize_with_spans(no_entity_part, 'O')
         return processed_tokens
 
@@ -91,11 +91,11 @@ class Document:
 
     @property
     def tokens(self) -> List[str]:
-        return [t['token'] for t in self._tokens]
+        return [t.token for t in self._tokens]
 
     @property
     def token_labels(self) -> List[str]:
-        return [t['label'] for t in self._tokens]
+        return [t.label for t in self._tokens]
 
     @property
     def sentences(self) -> 'List[Document]':

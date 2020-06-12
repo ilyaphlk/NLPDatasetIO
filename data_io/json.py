@@ -1,5 +1,4 @@
-from ..document import Document, Entity
-from ..dataset import Dataset
+from NLPDatasetIO.document import Document, Entity
 from typing import List
 import json
 
@@ -21,5 +20,5 @@ def read_from_json(path_to_json: str) -> List[Document]:
     return document
 
 
-def save_json(path_to_save: str, data: Dataset) -> None:
+def save_json(path_to_save: str, data) -> None:
     pass

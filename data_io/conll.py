@@ -1,7 +1,6 @@
-from ..document import Document
-from ..dataset import Dataset
+from NLPDatasetIO.document import Document
 from typing import  List
-from .utils import extract_entities
+from NLPDatasetIO.data_io.utils import extract_entities
 
 
 def iterate_over_conll(file_path: str, sep: str = ' '):
@@ -45,5 +44,5 @@ def read_from_conll(path_to_conll: str, sep: str = ' ') -> List[Document]:
     return documents
 
 
-def save_conll(path_to_save: str, data: Dataset):
+def save_conll(path_to_save: str, data):
     pass
