@@ -49,6 +49,7 @@ def extract_entities_from_brat(annotations_raw: str, text: str) -> List[Entity]:
         entity_text = annotation['text']
         if text[start:end] != annotation['text']:
             start, end = find_offset(text, entity_text, start, end)
+            entity_text = text[start:end]
         entities.append(Entity(entity_id=annotation['entity_id'],
                                text=entity_text,
                                start=start,
@@ -68,7 +69,7 @@ def extract_entity_labels(annotations_raw: str):
 
 def set_labels(entities, entity_labels):
     for entity in entities:
-        entity.label = entity_labels[entity.entity_id]
+        entity.label = entity_labels.get(entity.entity_id, None)
 
 
 def extract_relations_from_brat(annotations_raw: str):

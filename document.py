@@ -1,6 +1,6 @@
 from nltk.tokenize import word_tokenize
 from nltk.tokenize.punkt import PunktSentenceTokenizer
-from typing import List, Tuple, Optional, Callable
+from typing import List, Tuple, Optional, Callable, Any
 from dataclasses import dataclass
 
 sent_tokenize = PunktSentenceTokenizer().span_tokenize
@@ -8,13 +8,12 @@ sent_tokenize = PunktSentenceTokenizer().span_tokenize
 
 @dataclass
 class Entity:
-    def __init__(self, entity_id: str, text: str, start: int, end: int, type: str, label: Optional[str] = None) -> None:
-        self.entity_id = entity_id
-        self.text: str = text
-        self.start: int = start
-        self.end: int = end
-        self.type: str = type
-        self.label: Optional[str] = label
+    entity_id: Any
+    text: str
+    start: int
+    end: int
+    type: str
+    label: Optional[str] = None
 
 
 @dataclass
@@ -25,11 +24,10 @@ class Relation:
 
 @dataclass
 class Token:
-    def __init__(self, token: str, token_start: int, token_end: int, label: str):
-        self.token: str = token
-        self.token_start: int = token_start
-        self.token_end: int = token_end
-        self.label: str = label
+    token: str
+    token_start: int
+    token_end: int
+    label: str
 
 
 class Document:

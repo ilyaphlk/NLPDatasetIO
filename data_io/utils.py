@@ -49,7 +49,7 @@ def find_offset(text, entity_text, start, end, max_offset=50):
                 return start + i, end + i
             if text[start - i: end - j] == entity_text:
                 return start - i, end - i
-    return None, None
+    return start, end
 
 
 def read_file(fpath):

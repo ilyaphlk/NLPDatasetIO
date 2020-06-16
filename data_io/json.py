@@ -1,4 +1,5 @@
 from NLPDatasetIO.document import Document, Entity
+from dataclasses import asdict
 from typing import List
 import json
 
@@ -21,4 +22,10 @@ def read_from_json(path_to_json: str) -> List[Document]:
 
 
 def save_json(path_to_save: str, data) -> None:
-    pass
+    with open(path_to_save, 'w', encoding='utf-8') as output_stream:
+        for document in data:
+            output_json = {'entity_id': document.doc_id, 'text': document.text, 'label': document.label, 'shift': document.shift}
+            entities = [asdict(entity) for entity in document.entities]
+            output_json['entities'] = entities
+            serialized_output_str = json.dumps(output_json, ensure_ascii=False)
+            output_stream.write(serialized_output_str + '\n')
