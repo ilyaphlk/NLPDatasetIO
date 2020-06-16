@@ -2,7 +2,8 @@ from ..document import Entity
 from typing import List, Tuple
 
 
-def extract_entities(tokens: List[str], labels: List[str], text: str, search_start_idx: int = 0) -> Tuple[List[Entity], int]:
+def extract_entities(tokens: List[str], labels: List[str], text: str, search_start_idx: int = 0) -> Tuple[
+    List[Entity], int]:
     """
     Function to convert predicted bio format to list of entities
     :param tokens: list of tokens
@@ -16,24 +17,28 @@ def extract_entities(tokens: List[str], labels: List[str], text: str, search_sta
     entity_start: int = 0
     entity_end: int = 0
     entity_type: str = 'NOTYPE'
+    entity_id = 0
     for token, label in zip(tokens, labels):
         token_start = text.find(token, search_start_idx)
         token_end = token_start + len(token)
         search_start_idx = token_end
         if (label == 'O' or label.startswith('B-')) and len(entity) > 0:
-            entities.append(Entity(text=' '.join(entity), start=entity_start,
+            entities.append(Entity(entity_id=entity_id, text=' '.join(entity), start=entity_start,
                                    end=entity_end, type=entity_type))
-        entity = []
+            entity = []
+            entity_id += 1
         if label.startswith('B-'):
             entity.append(token)
             entity_start = token_start
             entity_end = token_end
+            entity_type = label[2:]
         if label.startswith('I-'):
             entity.append(token)
             entity_end = token_end
+            entity_type = label[2:]
     if len(entity):
-        entities.append(Entity(text=' '.join(entity), start=entity_start,
-                                   end=entity_end, type=entity_type))
+        entities.append(Entity(entity_id=entity_id, text=' '.join(entity), start=entity_start,
+                               end=entity_end, type=entity_type))
     return entities, search_start_idx
 
 

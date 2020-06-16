@@ -8,7 +8,8 @@ sent_tokenize = PunktSentenceTokenizer().span_tokenize
 
 @dataclass
 class Entity:
-    def __init__(self, text: str, start: int, end: int, type: str, label: Optional[str] = None) -> None:
+    def __init__(self, entity_id: str, text: str, start: int, end: int, type: str, label: Optional[str] = None) -> None:
+        self.entity_id = entity_id
         self.text: str = text
         self.start: int = start
         self.end: int = end
@@ -71,10 +72,11 @@ class Document:
         prev_entity_end = 0
         processed_tokens: List[Token] = []
         for entity in sorted_entities:
-            no_entity_part = self.text[prev_entity_end:entity['start']]
-            entity_part = self.text[entity['start']:entity['end']]
+            no_entity_part = self.text[prev_entity_end:entity.start]
+            entity_part = self.text[entity.start:entity.end]
             processed_tokens += self.tokenize_with_spans(no_entity_part, 'O')
-            processed_tokens += self.tokenize_with_spans(entity_part, entity['type'])
+            processed_tokens += self.tokenize_with_spans(entity_part, entity.type)
+            prev_entity_end = entity.end
         no_entity_part = self.text[prev_entity_end:]
         processed_tokens += self.tokenize_with_spans(no_entity_part, 'O')
         return processed_tokens
@@ -82,7 +84,7 @@ class Document:
     def filter_entities(self, start_idx: int, end_idx: int) -> List[Entity]:
         filtered_entities: List[Entity] = []
         for entity in self.entities:
-            if entity['start'] >= start_idx and entity['end'] <= end_idx:
+            if entity.start >= start_idx and entity.end <= end_idx:
                 filtered_entities.append(entity)
         return filtered_entities
 

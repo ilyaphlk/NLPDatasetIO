@@ -5,16 +5,16 @@ from typing import List
 
 class Dataset:
 
-    def __init__(self, location: str, format: str, split='train'):
+    def __init__(self, location: str, format: str, split='train', **kwargs):
         self.location = location
-        self.documents = self.read(location, format)
+        self.documents = self.read(location, format, **kwargs)
         self.split = split
 
     @staticmethod
-    def read(path: str, fmt: str) -> List[Document]:
+    def read(path: str, fmt: str, **kwargs) -> List[Document]:
         # TODO: process wrong format passing cases
         load_f = load_functions[fmt]
-        return load_f(path)
+        return load_f(path, **kwargs)
 
     def save(self, path: str, fmt: str) -> None:
         save_f = save_functions[fmt]

@@ -1,0 +1,60 @@
+T1	Gene 21 29	cyclin G
+N1	Reference T1 GeneOntology:900	CCNG1
+T2	Gene 63 71	Cyclin G
+N2	Reference T2 GeneOntology:900	CCNG1
+T3	Gene 219 227	cyclin G
+N3	Reference T3 GeneOntology:900	CCNG1
+T4	Gene 395 403	cyclin G
+N4	Reference T4 GeneOntology:900	CCNG1
+T5	Gene 566 574	cyclin G
+N5	Reference T5 GeneOntology:900	CCNG1
+T6	Gene 705 713	cyclin G
+N6	Reference T6 GeneOntology:900	CCNG1
+T7	Gene 899 907	cyclin G
+N7	Reference T7 GeneOntology:900	CCNG1
+T8	Gene 1013 1021	cyclin G
+N8	Reference T8 GeneOntology:900	CCNG1
+T9	Gene 1104 1112	cyclin G
+N9	Reference T9 GeneOntology:900	CCNG1
+T10	Gene 312 320	cyclin G
+N10	Reference T10 GeneOntology:900	CCNG1
+T11	Gene 33 36	ATM
+N11	Reference T11 GeneOntology:472	ATM
+T12	Gene 460 489	ataxia-telangiectasia mutated
+N12	Reference T12 GeneOntology:472	ATM
+T13	Gene 491 494	ATM
+N13	Reference T13 GeneOntology:472	ATM
+T14	Gene 885 888	ATM
+N14	Reference T14 GeneOntology:472	ATM
+T15	Gene 959 962	ATM
+N15	Reference T15 GeneOntology:472	ATM
+T16	Gene 1057 1060	ATM
+N16	Reference T16 GeneOntology:472	ATM
+T17	Gene 1116 1119	ATM
+N17	Reference T17 GeneOntology:472	ATM
+T18	Gene 47 50	p53
+N18	Reference T18 GeneOntology:7157	TP53
+T19	Gene 95 98	p53
+N19	Reference T19 GeneOntology:7157	TP53
+T21	Gene 347 350	p53
+N21	Reference T21 GeneOntology:7157	TP53
+T22	Gene 521 524	p53
+N22	Reference T22 GeneOntology:7157	TP53
+T23	Gene 413 416	p53
+N23	Reference T23 GeneOntology:7157	TP53
+T24	Gene 584 587	p53
+N24	Reference T24 GeneOntology:7157	TP53
+T25	Gene 624 627	p53
+N25	Reference T25 GeneOntology:7157	TP53
+T26	Gene 801 804	p53
+N26	Reference T26 GeneOntology:7157	TP53
+T27	Gene 763 766	p53
+N27	Reference T27 GeneOntology:7157	TP53
+T28	Gene 945 948	p53
+N28	Reference T28 GeneOntology:7157	TP53
+T29	Gene 1130 1133	p53
+N29	Reference T29 GeneOntology:7157	TP53
+T30	Gene 351 355	Mdm2
+N30	Reference T30 GeneOntology:4193	MDM2
+T20	Gene 154 157	p53
+N20	Reference T20 GeneOntology:7157	TP53
