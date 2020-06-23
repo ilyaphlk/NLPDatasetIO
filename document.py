@@ -83,6 +83,8 @@ class Document:
         filtered_entities: List[Entity] = []
         for entity in self.entities:
             if entity.start >= start_idx and entity.end <= end_idx:
+                entity.start = entity.start - start_idx
+                entity.end = entity.end - start_idx
                 filtered_entities.append(entity)
         return filtered_entities
 

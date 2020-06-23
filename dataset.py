@@ -16,9 +16,9 @@ class Dataset:
         load_f = load_functions[fmt]
         return load_f(path, **kwargs)
 
-    def save(self, path: str, fmt: str) -> None:
+    def save(self, fmt, **kwargs) -> None:
         save_f = save_functions[fmt]
-        save_f(path, self.documents)
+        save_f(self.documents, **kwargs)
 
     def iterate_token_level(self):
         for document in self.documents:
@@ -30,3 +30,10 @@ class Dataset:
 
     def iterate_relations(self):
         raise NotImplementedError()
+
+    def split_by_sentences(self):
+        documents = []
+        for document in self.documents:
+            for sent_doc in document.sentences:
+                documents.append(sent_doc)
+        self.documents = documents
