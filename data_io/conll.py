@@ -57,9 +57,9 @@ def read_from_conll(path_to_conll: str, sep: str = ' ') -> List[Document]:
     return documents
 
 
-def save_conll(path_to_save: str, data, sep: str = ' '):
+def save_conll(data, path_to_save: str, sep: str = ' '):
     with open(path_to_save, 'w', encoding='utf-8') as output_stream:
-        for document in data.documents:
+        for document in data:
             tokens = document.tokens
             labels = document.token_labels
             for token, label in zip(tokens, labels):

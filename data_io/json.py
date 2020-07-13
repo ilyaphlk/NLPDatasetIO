@@ -21,7 +21,7 @@ def read_from_json(path_to_json: str) -> List[Document]:
     return document
 
 
-def save_json(path_to_save: str, data) -> None:
+def save_json(data, path_to_save: str) -> None:
     with open(path_to_save, 'w', encoding='utf-8') as output_stream:
         for document in data:
             output_json = {'entity_id': document.doc_id, 'text': document.text, 'label': document.label, 'shift': document.shift}

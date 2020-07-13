@@ -25,7 +25,7 @@ def read_from_plain(path_to_plain_texts: str, path_to_plain_ann: str) -> List[Do
 
 def save_plain(data, path_to_save_texts: str, path_to_save_ann: str):
     with open(path_to_save_texts, 'w', encoding='utf-8') as txt_output_stream, \
-      open( path_to_save_ann, 'w',  encoding='utf-8') as ann_output_stream:
+      open(path_to_save_ann, 'w',  encoding='utf-8') as ann_output_stream:
         for document in data:
             tokens = document.tokens
             labels = document.token_labels

@@ -108,8 +108,8 @@ def save_ann_file(path_to_save: str, document: Document):
             output_stream.write(f'{entity.entity_id}\t{entity.type} {entity.start} {entity.end}\t{entity.text}\n')
 
 
-def save_brat(path_to_save: str, data):
-    for document in data.document:
+def save_brat(data, path_to_save: str):
+    for document in data:
         ann_file = os.path.join(path_to_save, f'{document.document_id}.ann')
         txt_file = os.path.join(path_to_save, f'{document.document_id}.txt')
         save_text_file(txt_file, document)
