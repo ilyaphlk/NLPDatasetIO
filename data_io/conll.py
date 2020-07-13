@@ -3,6 +3,18 @@ from typing import  List
 from NLPDatasetIO.data_io.utils import extract_entities
 
 
+def correct_label(labels):
+    prev_label = None
+    for label_idx, label in enumerate(labels):
+        if label.startswith('I-') and (prev_label is None or prev_label == 'O'):
+            label = 'B-' + label[2:]
+        if prev_label is not None and label.startswith('I-') and prev_label != 'O' and label[2:] != prev_label[2:]:
+            label = 'B-' + label[2:]
+        labels[label_idx] = label
+        prev_label = label
+    return labels
+
+
 def iterate_over_conll(file_path: str, sep: str = ' '):
     with open(file_path, encoding="utf-8") as f:
         words = []
@@ -36,6 +48,7 @@ def read_from_conll(path_to_conll: str, sep: str = ' ') -> List[Document]:
     documents: List[Document] = []
     document_id = 0
     for tokens, labels, gazetteers in iterate_over_conll(path_to_conll, sep):
+        labels = correct_label(labels)
         text = ' '.join(tokens)
         entities, _ = extract_entities(tokens, labels, text)
         document = Document(doc_id=document_id, text=text, entities=entities)

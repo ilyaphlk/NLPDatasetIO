@@ -18,14 +18,15 @@ class AnnFilesIterator(object):
         ann_files_pattern = os.path.join(directory, '*.ann')
         txt_files = [txt_file for txt_file in glob(txt_files_pattern)]
         ann_files = [ann_file for ann_file in glob(ann_files_pattern)]
-        self.txt_files = sorted(txt_files)
-        self.ann_files = sorted(ann_files)
+        self.txt_files = list(sorted(txt_files))
+        self.ann_files = list(sorted(ann_files))
 
     def __iter__(self):
         return iter(zip(self.txt_files, self.ann_files))
 
 
 def parse_annotation(annotation_raw):
+    #print(annotation_raw)
     annotation = re.search(BRAT_FORMAT, annotation_raw).groupdict()
     positions = re.findall(r'\d+', annotation['positions'])
     positions = [int(pos) for pos in positions]
@@ -43,7 +44,10 @@ def extract_entities_from_brat(annotations_raw: str, text: str) -> List[Entity]:
     entities = []
     for annotation_raw in annotations_raw.split('\n'):
         if not annotation_raw.startswith('T'): continue
-        annotation = parse_annotation(annotation_raw)
+        try:
+            annotation = parse_annotation(annotation_raw)
+        except:
+            continue
         start = annotation['start']
         end = annotation['end']
         entity_text = annotation['text']
@@ -106,8 +110,8 @@ def save_ann_file(path_to_save: str, document: Document):
 
 def save_brat(path_to_save: str, data):
     for document in data.document:
-        ann_file = os.path.join(path_to_save, f'{document.document_id}.txt')
-        txt_file = os.path.join(path_to_save, f'{document.document_id}.ann')
+        ann_file = os.path.join(path_to_save, f'{document.document_id}.ann')
+        txt_file = os.path.join(path_to_save, f'{document.document_id}.txt')
         save_text_file(txt_file, document)
         save_ann_file(ann_file, document)
 
