@@ -37,3 +37,12 @@ class Dataset:
             for sent_doc in document.sentences:
                 documents.append(sent_doc)
         self.documents = documents
+
+    def __getitem__(self, item):
+        return self.documents[item]
+
+    def __setitem__(self, key, value):
+        self.documents[key] = value
+
+    def __iter__(self):
+        return self.documents
