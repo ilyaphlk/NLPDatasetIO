@@ -7,7 +7,7 @@ import re
 
 BRAT_FORMAT = r'(?P<entity_id>^T[0-9]+)\t(?P<type>[a-zA-Z\_]+) (?P<positions>[0-9; ]+)\t(?P<text>.*)'
 #N1      Reference T1 GeneOntology:900   CCNG1
-ANNOTATION = r'(?P<id>^N[0-9]+)\tReference (?P<entity_id>T[0-9]+) (?P<ontology_name>[a-zA-Z\_\:0-9]+)\t(?P<concept_id>.*)'
+ANNOTATION = r'(?P<id>^N[0-9]+)\tReference (?P<entity_id>T[0-9]+) (?P<ontology_name>[a-zA-Z\_]+)\:(?P<concept_id>[a-zA-Z\_0-9]+)\t(?P<concept_name>.*)'
 
 
 class AnnFilesIterator(object):
