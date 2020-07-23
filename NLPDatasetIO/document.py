@@ -2,6 +2,7 @@ from nltk.tokenize import word_tokenize
 from nltk.tokenize.punkt import PunktSentenceTokenizer
 from typing import List, Tuple, Optional, Callable, Any
 from dataclasses import dataclass
+from NLPDatasetIO.data_io.conll import extract_entities
 
 sent_tokenize = PunktSentenceTokenizer().span_tokenize
 
@@ -116,7 +117,7 @@ class Document:
             sentence_documents.append(sentence)
         return sentence_documents
 
-    @staticmethod
-    def from_token_level_labeling(tokens: List[str], labels: List[str]) -> None:
-        pass
+    def from_token_level_labeling(self, tokens: List[str], labels: List[str]) -> None:
+        self.entities = extract_entities(tokens, labels, self.text)
+        self._tokens: List[Token] = self.token_level_labeling()
 
