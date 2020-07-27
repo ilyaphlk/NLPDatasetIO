@@ -3,6 +3,7 @@ from .brat import read_from_brat, save_brat
 from .json import read_from_json, save_json
 from .plain import read_from_plain, save_plain
 from .inception import read_from_inception, save_inception
+from .normalization_tab import read_normalization_tab
 
 
 load_functions = {
@@ -10,7 +11,8 @@ load_functions = {
     'brat': read_from_brat,
     'conll': read_from_conll,
     'inception': read_from_inception,
-    'plain': read_from_plain
+    'plain': read_from_plain,
+    'normalization_tab': read_normalization_tab
 }
 
 save_functions = {
