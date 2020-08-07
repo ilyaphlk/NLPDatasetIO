@@ -1,13 +1,19 @@
 from NLPDatasetIO.data_io import load_functions, save_functions
 from NLPDatasetIO.document import Document
-from typing import List
+from typing import List, Optional
 
 
 class Dataset:
 
-    def __init__(self, location: str, format: str, split='train', **kwargs):
+    def __init__(self, documents: List[Document] = None, texts: List[str] = None,
+                 location: Optional[str] = None, format: Optional[str] = None, split='train', **kwargs):
         self.location = location
-        self.documents = self.read(location, format, **kwargs)
+        if location is not None:
+            self.documents = self.read(location, format, **kwargs)
+        if documents is not None:
+            self.documents = documents
+        if texts is not None:
+            self.documents = [Document(doc_id=doc_id, text=texts) for doc_id, text in enumerate(texts)]
         self.split = split
 
     @staticmethod
