@@ -1,3 +1,4 @@
+
 from NLPDatasetIO.document import Document, Entity
 
 
@@ -17,8 +18,10 @@ def parse_line(line):
 def read_normalization_tab(path_to_tab_file):
     documents = {}
     with open(path_to_tab_file, encoding='utf-8') as input_stream:
-        for line in input_stream:
+        for line_idx, line in enumerate(input_stream):
             doc_id, entity = parse_line(line)
+            entity['entity_id'] = line_idx
+            entity['type'] = 'TP'
             if doc_id not in documents: documents[doc_id] = []
             documents[doc_id].append(entity)
 

@@ -1,4 +1,3 @@
-from NLPDatasetIO.document import Document
 from typing import  List
 from NLPDatasetIO.data_io.utils import extract_entities
 
@@ -44,7 +43,8 @@ def iterate_over_conll(file_path: str, sep: str = ' '):
             yield words, labels, gazetteers
 
 
-def read_from_conll(path_to_conll: str, sep: str = ' ') -> List[Document]:
+def read_from_conll(path_to_conll: str, sep: str = ' ') -> "List[Document]":
+    from NLPDatasetIO.document import Document
     documents: List[Document] = []
     document_id = 0
     for tokens, labels, gazetteers in iterate_over_conll(path_to_conll, sep):

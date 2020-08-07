@@ -1,9 +1,10 @@
-from ..document import Entity
+#from NLPDatasetIO.document import Entity
 from typing import List, Tuple
 
 
-def extract_entities(tokens: List[str], labels: List[str], text: str, search_start_idx: int = 0) -> Tuple[
-    List[Entity], int]:
+def extract_entities(tokens: List[str], labels: List[str], text: str, search_start_idx: int = 0): #-> "Tuple["
+    "List[Entity], int]:"
+    from NLPDatasetIO.document import Entity
     """
     Function to convert predicted bio format to list of entities
     :param tokens: list of tokens
