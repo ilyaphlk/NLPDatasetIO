@@ -13,7 +13,7 @@ class Dataset:
         if documents is not None:
             self.documents = documents
         if texts is not None:
-            self.documents = [Document(doc_id=doc_id, text=texts) for doc_id, text in enumerate(texts)]
+            self.documents = [Document(doc_id=doc_id, text=text) for doc_id, text in enumerate(texts)]
         self.split = split
 
     @staticmethod

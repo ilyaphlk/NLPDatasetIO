@@ -33,7 +33,7 @@ class Token:
 
 class Document:
 
-    def __init__(self, doc_id: int, text: str, label: Optional[str] = None, entities: Optional[List[Entity]] = None,
+    def __init__(self, doc_id: int, text: str, label: Optional[str] = None, entities: Optional[List[Entity]] = [],
                  relations: Optional[List[Relation]] = None, tokenize: Optional[Callable] = None, shift: int = None) -> None:
 
         self.doc_id: int = doc_id
