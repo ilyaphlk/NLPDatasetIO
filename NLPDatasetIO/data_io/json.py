@@ -24,7 +24,7 @@ def read_from_json(path_to_json: str) -> List[Document]:
 def save_json(data, path_to_save: str) -> None:
     with open(path_to_save, 'w', encoding='utf-8') as output_stream:
         for document in data:
-            output_json = {'entity_id': document.doc_id, 'text': document.text, 'label': document.label, 'shift': document.shift}
+            output_json = {'document_id': document.doc_id, 'text': document.text, 'label': document.label, 'shift': document.shift}
             entities = [asdict(entity) for entity in document.entities]
             output_json['entities'] = entities
             serialized_output_str = json.dumps(output_json, ensure_ascii=False)

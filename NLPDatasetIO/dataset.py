@@ -52,3 +52,6 @@ class Dataset:
 
     def __iter__(self):
         return self.documents
+
+    def to_json(self):
+        return [document.to_dict() for document in self.documents]
