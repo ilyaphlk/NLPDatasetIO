@@ -63,9 +63,7 @@ def document_from_token_level_labeling(document_id: int, tokens: List[str], labe
 
 def save_conll(data, path_to_save: str, sep: str = ' '):
     with open(path_to_save, 'w', encoding='utf-8') as output_stream:
-        for document in data:
-            tokens = document.tokens
-            labels = document.token_labels
+        for tokens, labels in data.iterate_token_level():
             for token, label in zip(tokens, labels):
                 output_stream.write(f'{token}{sep}{label}\n')
             output_stream.write('\n')

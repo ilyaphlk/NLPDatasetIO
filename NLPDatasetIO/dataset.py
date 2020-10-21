@@ -25,7 +25,7 @@ class Dataset:
 
     def save(self, fmt, **kwargs) -> None:
         save_f = save_functions[fmt]
-        save_f(self.documents, **kwargs)
+        save_f(self, **kwargs)
 
     def iterate_token_level(self):
         for document in self.documents:
