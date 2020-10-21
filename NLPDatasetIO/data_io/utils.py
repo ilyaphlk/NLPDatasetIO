@@ -28,6 +28,8 @@ def extract_entities(tokens: List[str], labels: List[str], text: str, search_sta
                                    end=entity_end, type=entity_type))
             entity = []
             entity_id += 1
+            entity_start = None
+            entity_end = None
         if label.startswith('B-'):
             entity.append(token)
             entity_start = token_start
@@ -35,6 +37,7 @@ def extract_entities(tokens: List[str], labels: List[str], text: str, search_sta
             entity_type = label[2:]
         if label.startswith('I-'):
             entity.append(token)
+            if entity_start is None: entity_start = token_start
             entity_end = token_end
             entity_type = label[2:]
     if len(entity):

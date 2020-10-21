@@ -110,8 +110,8 @@ def save_ann_file(path_to_save: str, document: Document):
 
 def save_brat(data, path_to_save: str):
     for document in data:
-        ann_file = os.path.join(path_to_save, f'{document.document_id}.ann')
-        txt_file = os.path.join(path_to_save, f'{document.document_id}.txt')
+        ann_file = os.path.join(path_to_save, f'{document.doc_id}.ann')
+        txt_file = os.path.join(path_to_save, f'{document.doc_id}.txt')
         save_text_file(txt_file, document)
         save_ann_file(ann_file, document)
 
