@@ -1,5 +1,6 @@
-from typing import  List
+from typing import List
 from NLPDatasetIO.data_io.utils import extract_entities
+from NLPDatasetIO.document import Document
 
 
 def correct_label(labels):
@@ -44,17 +45,20 @@ def iterate_over_conll(file_path: str, sep: str = ' '):
 
 
 def read_from_conll(path_to_conll: str, sep: str = ' ') -> "List[Document]":
-    from NLPDatasetIO.document import Document
     documents: List[Document] = []
     document_id = 0
     for tokens, labels, gazetteers in iterate_over_conll(path_to_conll, sep):
         labels = correct_label(labels)
         text = ' '.join(tokens)
-        entities, _ = extract_entities(tokens, labels, text)
-        document = Document(doc_id=document_id, text=text, entities=entities)
+        document = document_from_token_level_labeling(document_id, tokens, labels, text)
         document_id += 1
         documents.append(document)
     return documents
+
+
+def document_from_token_level_labeling(document_id: int, tokens: List[str], labels: List[str], text: str):
+    entities, _ = extract_entities(tokens, labels, text)
+    return Document(doc_id=document_id, text=text, entities=entities)
 
 
 def save_conll(data, path_to_save: str, sep: str = ' '):

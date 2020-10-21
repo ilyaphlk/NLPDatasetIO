@@ -1,10 +1,9 @@
-#from NLPDatasetIO.document import Entity
+from NLPDatasetIO.document import Entity
 from typing import List, Optional
 
 
 def extract_entities(tokens: List[str], labels: List[str], text: str,
                      search_start_idx: int = 0, entity_label_sep: str ='_'):
-    from NLPDatasetIO.document import Entity
     """
     Function to convert predicted bio format to list of entities
     :param tokens: list of tokens

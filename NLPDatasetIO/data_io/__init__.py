@@ -1,9 +1,9 @@
-from .conll import read_from_conll, save_conll
-from .brat import read_from_brat, save_brat
-from .json import read_from_json, save_json
-from .plain import read_from_plain, save_plain
-from .inception import read_from_inception, save_inception
-from .normalization_tab import read_normalization_tab
+from NLPDatasetIO.data_io.conll import read_from_conll, save_conll
+from NLPDatasetIO.data_io.brat import read_from_brat, save_brat
+from NLPDatasetIO.data_io.json import read_from_json, save_json
+from NLPDatasetIO.data_io.plain import read_from_plain, save_plain
+from NLPDatasetIO.data_io.inception import read_from_inception, save_inception
+from NLPDatasetIO.data_io.normalization_tab import read_normalization_tab
 
 
 load_functions = {
