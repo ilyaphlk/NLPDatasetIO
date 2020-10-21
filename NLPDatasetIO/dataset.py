@@ -15,6 +15,7 @@ class Dataset:
         if texts is not None:
             self.documents = [Document(doc_id=doc_id, text=text) for doc_id, text in enumerate(texts)]
         self.split = split
+        self.detailed = True
 
     @staticmethod
     def read(path: str, fmt: str, **kwargs) -> List[Document]:
@@ -28,7 +29,10 @@ class Dataset:
 
     def iterate_token_level(self):
         for document in self.documents:
-            yield document.tokens, document.token_labels
+            if self.detailed:
+                yield document.tokens, document.detailed_token_labels
+            else:
+                yield document.tokens, document.token_labels
 
     def iterate_document_level(self):
         for document in self.documents:
