@@ -29,6 +29,7 @@ class Token:
     token_start: int
     token_end: int
     label: str
+    entity_label: Optional[str]
 
 
 class Document:
@@ -45,24 +46,28 @@ class Document:
             self.tokenize: Callable = word_tokenize
         else:
             self.tokenize: Callable = tokenize
+
+        # TODO add input to function, make static
         self._tokens: List[Token] = self.token_level_labeling()
         self.shift: int = shift
 
-    def etype_to_bio_label(self, label: str, token_idx: int) -> str:
+    @staticmethod
+    def etype_to_bio_label(label: str, token_idx: int) -> str:
         if label == 'O':
             return label
         if token_idx == 0:
             return 'B-' + label
         return 'I-' + label
 
-    def tokenize_with_spans(self, text: str, etype: str) -> List[Token]:
+    def tokenize_with_spans(self, text: str, etype: str, entity_label: Optional[str] = None) -> List[Token]:
         search_start_pos_idx: int = 0
         tokens: List[Token] = []
         for token_idx, token in enumerate(self.tokenize(text)):
             label = self.etype_to_bio_label(etype, token_idx)
             token_start = text.find(token, search_start_pos_idx)
             token_end = token_start + len(token)
-            tokens.append(Token(token=token, token_start=token_start, token_end=token_end, label=label))
+            tokens.append(Token(token=token, token_start=token_start,
+                                token_end=token_end, label=label, entity_label=entity_label))
             search_start_pos_idx = token_end
         return tokens
 
@@ -74,7 +79,7 @@ class Document:
             no_entity_part = self.text[prev_entity_end:entity.start]
             entity_part = self.text[entity.start:entity.end]
             processed_tokens += self.tokenize_with_spans(no_entity_part, 'O')
-            processed_tokens += self.tokenize_with_spans(entity_part, entity.type)
+            processed_tokens += self.tokenize_with_spans(entity_part, entity.type, entity.label)
             prev_entity_end = entity.end
         no_entity_part = self.text[prev_entity_end:]
         processed_tokens += self.tokenize_with_spans(no_entity_part, 'O')
@@ -99,6 +104,10 @@ class Document:
     @property
     def token_labels(self) -> List[str]:
         return [t.label for t in self._tokens]
+
+    @property
+    def detailed_token_labels(self):
+        return [f"{t.label}_{t.entity_label}" for t in self._tokens]
 
     @property
     def sentences(self) -> 'List[Document]':
