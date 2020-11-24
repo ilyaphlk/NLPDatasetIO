@@ -35,13 +35,19 @@ def extract_entities(tokens: List[str], labels: List[str], text: str,
             entity_start = token_start
             entity_end = token_end
             entity_type = label[2:].split(entity_label_sep)[0]
-            entity_label = label[2:].split(entity_label_sep)[1]
+            if len(label[2:].split(entity_label_sep)) > 1:
+                entity_label = label[2:].split(entity_label_sep)[1]
+            else:
+                entity_label = None
         if label.startswith('I-'):
             entity.append(token)
             if entity_start is None: entity_start = token_start
             entity_end = token_end
             entity_type = label[2:].split(entity_label_sep)[0]
-            entity_label = label[2:].split(entity_label_sep)[1]
+            if len(label[2:].split(entity_label_sep)) > 1:
+                entity_label = label[2:].split(entity_label_sep)[1]
+            else:
+                entity_label = None
     if len(entity):
         entities.append(Entity(entity_id=entity_id, text=' '.join(entity), start=entity_start,
                                end=entity_end, type=entity_type, label=entity_label))
