@@ -39,7 +39,9 @@ class Dataset:
             yield document.tokens, document.label
 
     def iterate_relations(self):
-        raise NotImplementedError()
+        for document in self.documents:
+            for relation in document.relations:
+                yield relation
 
     def split_by_sentences(self):
         documents = []

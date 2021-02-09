@@ -1,9 +1,9 @@
 from nltk.tokenize import word_tokenize
-from nltk.tokenize.punkt import PunktSentenceTokenizer
-from typing import List, Optional, Callable, Any
+from NLPDatasetIO.tokenizers.custom_delimitter_tokenizer import CustomDelimiterSpanTokenizer
+from typing import List, Optional, Callable, Any, Dict
 from dataclasses import dataclass, asdict
 
-sent_tokenize = PunktSentenceTokenizer().span_tokenize
+sent_tokenize = CustomDelimiterSpanTokenizer.span_tokenize
 
 
 @dataclass
@@ -18,8 +18,10 @@ class Entity:
 
 @dataclass
 class Relation:
-    def __init__(self):
-        raise NotImplementedError()
+    relation_id: Any
+    entity_id_1: Any
+    entity_id_2: Any
+    type: str
 
 
 @dataclass
@@ -33,13 +35,13 @@ class Token:
 
 class Document:
 
-    def __init__(self, doc_id: int, text: str, label: Optional[str] = None, entities: Optional[List[Entity]] = [],
-                 relations: Optional[List[Relation]] = None, tokenize: Optional[Callable] = None, shift: int = None) -> None:
+    def __init__(self, doc_id: int, text: str, label: Optional[str] = None, entities: Dict[Any, Entity] = {},
+                 relations: List[Relation] = [], tokenize: Optional[Callable] = None, shift: int = None) -> None:
 
         self.doc_id: int = doc_id
         self.text: str = text
         self.label: Optional[str] = label
-        self.entities: Optional[List[Entity]] = entities
+        self.entities: Optional[Dict[Any, Entity]] = entities
         self.relations: Optional[List[Relation]] = relations
         if tokenize is None:
             self.tokenize: Callable = word_tokenize
@@ -71,7 +73,7 @@ class Document:
         return tokens
 
     def token_level_labeling(self) -> List[Token]:
-        sorted_entities = sorted(self.entities, key=lambda t: t.start)
+        sorted_entities = sorted(self.entities.values(), key=lambda t: t.start)
         prev_entity_end = 0
         processed_tokens: List[Token] = []
         for entity in sorted_entities:
@@ -85,12 +87,12 @@ class Document:
         return processed_tokens
 
     def filter_entities(self, start_idx: int, end_idx: int) -> List[Entity]:
-        filtered_entities: List[Entity] = []
-        for entity in self.entities:
+        filtered_entities: Dict[Any, Entity] = {}
+        for entity_id, entity in self.entities.items():
             if entity.start >= start_idx and entity.end <= end_idx:
                 entity.start = entity.start - start_idx
                 entity.end = entity.end - start_idx
-                filtered_entities.append(entity)
+                filtered_entities[entity_id] = entity
         return filtered_entities
 
     def filter_relations(self, start_idx: int, end_idx: int):
@@ -128,8 +130,9 @@ class Document:
     def to_dict(self):
         output_json = {'document_id': self.doc_id, 'text': self.text, 'label': self.label,
                        'shift': self.shift}
-        entities = [asdict(entity) for entity in self.entities]
+        entities = {entity_id: asdict(entity) for entity_id, entity in self.entities.items()}
         output_json['entities'] = entities
+        relations = [asdict(relation) for relation in self.relations]
+        output_json['relations'] = relations
         return output_json
-
 

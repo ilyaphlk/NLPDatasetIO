@@ -26,7 +26,7 @@ def read_normalization_tab(path_to_tab_file):
 
     dataset = []
     for doc_id, entities in documents.items():
-        entities = [Entity(**entity) for entity in entities]
+        entities = {entity['entity_id']: Entity(**entity) for entity in entities}
         document = Document(doc_id, '', entities=entities)
         dataset.append(document)
     return dataset

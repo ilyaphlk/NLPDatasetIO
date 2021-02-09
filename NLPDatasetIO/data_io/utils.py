@@ -1,5 +1,5 @@
 from NLPDatasetIO.document import Entity
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 
 def extract_entities(tokens: List[str], labels: List[str], text: str,
@@ -12,7 +12,7 @@ def extract_entities(tokens: List[str], labels: List[str], text: str,
     :param search_start_idx: index of search start position
     :return: List of entities and last search start position
     """
-    entities: List[Entity] = []
+    entities: Dict[Entity] = {}
     entity: List[str] = []
     entity_start: int = 0
     entity_end: int = 0
@@ -24,7 +24,7 @@ def extract_entities(tokens: List[str], labels: List[str], text: str,
         token_end = token_start + len(token)
         search_start_idx = token_end
         if (label == 'O' or label.startswith('B-')) and len(entity) > 0:
-            entities.append(Entity(entity_id=entity_id, text=' '.join(entity), start=entity_start,
+            entities[entity_id] = (Entity(entity_id=entity_id, text=' '.join(entity), start=entity_start,
                                    end=entity_end, type=entity_type))
             entity = []
             entity_id += 1
@@ -49,7 +49,7 @@ def extract_entities(tokens: List[str], labels: List[str], text: str,
             else:
                 entity_label = None
     if len(entity):
-        entities.append(Entity(entity_id=entity_id, text=' '.join(entity), start=entity_start,
+        entities[entity_id] = (Entity(entity_id=entity_id, text=' '.join(entity), start=entity_start,
                                end=entity_end, type=entity_type, label=entity_label))
     return entities, search_start_idx
 

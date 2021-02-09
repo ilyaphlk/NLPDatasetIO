@@ -67,9 +67,10 @@ def parse_sentences(file_path):
     for sentence_id, sentence in enumerate(sentences):
         sentence_annotations = entities_spans[entities_spans.sentence_id == sentence_id]
         sentence_annotations = sentence_annotations[['entity_id', 'type', 'start', 'end', 'text']].to_dict('records')
-        sentence_annotations = [Entity(entity_id=annotation['entity_id'], text=annotation['text'],
-                                       start=annotation['start'], end=annotation['end'],
-                                       type=annotation['type']) for annotation in sentence_annotations]
+        sentence_annotations = {
+            annotation['entity_id']: Entity(entity_id=annotation['entity_id'], text=annotation['text'],
+                                            start=annotation['start'], end=annotation['end'],
+                                            type=annotation['type']) for annotation in sentence_annotations}
         resulting_data.append({
             'text': sentence,
             'sentence_id': sentence_id,
