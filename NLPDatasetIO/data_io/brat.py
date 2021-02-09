@@ -128,7 +128,7 @@ def save_ann_file(path_to_save: str, document: Document):
             if not isinstance(relation.entity_id_1, str) or not relation.entity_id_1.startswith('T'):
                 relation.entity_id_1 = f'T{relation.entity_id_1}'
             if not isinstance(relation.entity_id_2, str) or not relation.entity_id_2.startswith('T'):
-                relation.entity_id_2 = f'T{relation.entity_id_1}'
+                relation.entity_id_2 = f'T{relation.entity_id_2}'
             output_stream.write(f'{relation.relation_id}\t{relation.type} Arg1:{relation.entity_id_1} Arg2:{relation.entity_id_2}\n')
 
 
