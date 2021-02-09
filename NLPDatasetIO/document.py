@@ -36,13 +36,15 @@ class Token:
 class Document:
 
     def __init__(self, doc_id: int, text: str, label: Optional[str] = None, entities: Dict[Any, Entity] = {},
-                 relations: List[Relation] = [], tokenize: Optional[Callable] = None, shift: int = None) -> None:
+                 relations: Optional[List[Relation]] = None, tokenize: Optional[Callable] = None, shift: int = None) -> None:
 
         self.doc_id: int = doc_id
         self.text: str = text
         self.label: Optional[str] = label
         self.entities: Optional[Dict[Any, Entity]] = entities
-        self.relations: Optional[List[Relation]] = relations
+        self.relations: Optional[List[Relation]] = []
+        if relations is not None:
+            self.relations = relations
         if tokenize is None:
             self.tokenize: Callable = word_tokenize
         else:
