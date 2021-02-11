@@ -14,6 +14,7 @@ class Entity:
     end: int
     type: str
     label: Optional[str] = None
+    note: Optional[Any] = None
 
 
 @dataclass
@@ -22,6 +23,7 @@ class Relation:
     entity_id_1: Any
     entity_id_2: Any
     type: str
+    note: Optional[Any] = None
 
 
 @dataclass
@@ -98,7 +100,15 @@ class Document:
         return filtered_entities
 
     def filter_relations(self, start_idx: int, end_idx: int):
-        return self.relations
+        # stores only sentence relations
+        filtered_relations = []
+        for relation in self.relations:
+            entity_1 = self.entities[relation.entity_id_1]
+            entity_2 = self.entities[relation.entity_id_2]
+            if start_idx < entity_1.start and entity_1.end < end_idx and \
+                    start_idx < entity_2.start and entity_2.end < end_idx:
+                filtered_relations.append(relation)
+        return filtered_relations
 
     @property
     def tokens(self) -> List[str]:
