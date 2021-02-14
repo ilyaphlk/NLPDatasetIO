@@ -1,7 +1,7 @@
 from nltk.tokenize import word_tokenize
 from NLPDatasetIO.tokenizers.custom_delimitter_tokenizer import CustomDelimiterSpanTokenizer
 from typing import List, Optional, Callable, Any, Dict
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, replace
 
 sent_tokenize = CustomDelimiterSpanTokenizer.span_tokenize
 
@@ -94,9 +94,12 @@ class Document:
         filtered_entities: Dict[Any, Entity] = {}
         for entity_id, entity in self.entities.items():
             if entity.start >= start_idx and entity.end <= end_idx:
-                entity.start = entity.start - start_idx
-                entity.end = entity.end - start_idx
-                filtered_entities[entity_id] = entity
+                f_entity_start = entity.start - start_idx
+                f_entity_end = entity.end - start_idx
+                fentity = replace(entity)
+                fentity.start = f_entity_start
+                fentity.start = f_entity_end
+                filtered_entities[entity_id] = fentity
         return filtered_entities
 
     def filter_relations(self, start_idx: int, end_idx: int):
