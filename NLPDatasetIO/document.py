@@ -98,7 +98,7 @@ class Document:
                 f_entity_end = entity.end - start_idx
                 fentity = replace(entity)
                 fentity.start = f_entity_start
-                fentity.start = f_entity_end
+                fentity.end = f_entity_end
                 filtered_entities[entity_id] = fentity
         return filtered_entities
 
