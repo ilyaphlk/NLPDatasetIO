@@ -37,8 +37,13 @@ class Token:
 
 class Document:
 
-    def __init__(self, doc_id: int, text: str, label: Optional[str] = None, entities: Dict[Any, Entity] = {},
-                 relations: Optional[List[Relation]] = None, tokenize: Optional[Callable] = None, shift: int = None) -> None:
+    def __init__(self, doc_id: int, text: str,
+                 label: Optional[str] = None,
+                 entities: Dict[Any, Entity] = {},
+                 relations: Optional[List[Relation]] = None,
+                 tokenize: Optional[Callable] = None,
+                 subword_prefix: str = None, # TODO would be more convenient to get from callable
+                 shift: int = None) -> None:
 
         self.doc_id: int = doc_id
         self.text: str = text
@@ -51,6 +56,8 @@ class Document:
             self.tokenize: Callable = word_tokenize
         else:
             self.tokenize: Callable = tokenize
+
+        self.subword_prefix = subword_prefix
 
         # TODO add input to function, make static
         self._tokens: List[Token] = self.token_level_labeling()
@@ -68,13 +75,19 @@ class Document:
         search_start_pos_idx: int = 0
         tokens: List[Token] = []
         for token_idx, token in enumerate(self.tokenize(text)):
+            if (self.subword_prefix is not None and
+                token[:len(self.subword_prefix)] == self.subword_prefix):
+                token = token[len(self.subword_prefix):]
+
             label = self.etype_to_bio_label(etype, token_idx)
             token_start = text.find(token, search_start_pos_idx)
             token_end = token_start + len(token)
             tokens.append(Token(token=token, token_start=token_start,
                                 token_end=token_end, label=label, entity_label=entity_label))
             search_start_pos_idx = token_end
+
         return tokens
+
 
     def token_level_labeling(self) -> List[Token]:
         sorted_entities = sorted(self.entities.values(), key=lambda t: t.start)
