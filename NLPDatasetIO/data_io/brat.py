@@ -95,7 +95,7 @@ def extract_relations_from_brat(annotations_raw: str):
     return relations
 
 
-def read_from_brat(path_to_brat_folder):
+def read_from_brat(path_to_brat_folder, **kwargs):
     document_id = 0
     documents = []
     for text_file, ann_file in AnnFilesIterator(path_to_brat_folder):
@@ -106,7 +106,7 @@ def read_from_brat(path_to_brat_folder):
         set_labels(entities, entity_labels)
         relations = extract_relations_from_brat(annotations_raw)
         document = Document(doc_id=document_id, text=text,
-                            entities=entities, relations=relations)
+                            entities=entities, relations=relations, **kwargs)
         documents.append(document)
         document_id += 1
     return documents
