@@ -40,7 +40,7 @@ def parse_label_annotation(annotation_raw):
     return annotation['entity_id'], annotation['concept_id']
 
 
-def extract_entities_from_brat(annotations_raw: str, text: str) -> List[Entity]:
+def extract_entities_from_brat(annotations_raw: str, text: str, join_overlaps=False) -> List[Entity]:
     entities = {}
     for annotation_raw in annotations_raw.split('\n'):
         if not annotation_raw.startswith('T'): continue
@@ -59,7 +59,38 @@ def extract_entities_from_brat(annotations_raw: str, text: str) -> List[Entity]:
                                                    start=start,
                                                    end=end,
                                                    type=annotation['type'])
+
+    if join_overlaps:
+        entities = join_overlapping_entities(entities)
+
     return entities
+
+
+def join_overlapping_entities(entities):
+    entities = [v for v in sorted(entities.values(), key=lambda val: val.start)]
+    joined_entities = []
+    last_entity = entities[0]
+    cur_start = last_entity.start
+    cur_end = last_entity.end
+    for entity in entities:
+        if entity.start < cur_end:
+            last_entity = entity
+            cur_end = entity.end
+        else:
+            joined_entity = last_entity
+            joined_entity.start = cur_start
+            joined_entities.append(joined_entity)
+            last_entity = entity
+            cur_start = entity.start
+            cur_end = entity.end
+    
+    if last_entity is not None:
+        joined_entity = last_entity
+        joined_entity.start = cur_start
+        joined_entities.append(joined_entity)
+
+    joined_entities = {entity.entity_id: entity for entity in joined_entities}
+    return joined_entities
 
 
 def extract_entity_labels(annotations_raw: str):
@@ -101,7 +132,7 @@ def read_from_brat(path_to_brat_folder, **kwargs):
     for text_file, ann_file in AnnFilesIterator(path_to_brat_folder):
         text = read_file(text_file)
         annotations_raw = read_file(ann_file)
-        entities = extract_entities_from_brat(annotations_raw, text)
+        entities = extract_entities_from_brat(annotations_raw, text, **kwargs)
         entity_labels = extract_entity_labels(annotations_raw)
         set_labels(entities, entity_labels)
         relations = extract_relations_from_brat(annotations_raw)
