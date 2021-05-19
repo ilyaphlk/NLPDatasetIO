@@ -67,6 +67,9 @@ def extract_entities_from_brat(annotations_raw: str, text: str, join_overlaps=Fa
 
 
 def join_overlapping_entities(entities):
+    if len(entities) == 0:
+        return entities
+
     entities = [v for v in sorted(entities.values(), key=lambda val: val.start)]
     joined_entities = []
     last_entity = entities[0]
