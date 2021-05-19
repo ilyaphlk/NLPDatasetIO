@@ -132,7 +132,7 @@ def read_from_brat(path_to_brat_folder, **kwargs):
     for text_file, ann_file in AnnFilesIterator(path_to_brat_folder):
         text = read_file(text_file)
         annotations_raw = read_file(ann_file)
-        entities = extract_entities_from_brat(annotations_raw, text, **kwargs)
+        entities = extract_entities_from_brat(annotations_raw, text, join_overlaps=True)
         entity_labels = extract_entity_labels(annotations_raw)
         set_labels(entities, entity_labels)
         relations = extract_relations_from_brat(annotations_raw)
