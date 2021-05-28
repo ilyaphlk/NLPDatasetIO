@@ -43,6 +43,7 @@ class Document:
                  relations: Optional[List[Relation]] = None,
                  tokenize: Optional[Callable] = None,
                  subword_prefix: str = None, # TODO would be more convenient to get from callable
+                 subword_suffix: str = None,
                  shift: int = None) -> None:
 
         self.doc_id: int = doc_id
@@ -58,6 +59,7 @@ class Document:
             self.tokenize: Callable = tokenize
 
         self.subword_prefix = subword_prefix
+        self.subword_suffix = subword_suffix
 
         # TODO add input to function, make static
         self._tokens: List[Token] = self.token_level_labeling()
@@ -78,6 +80,10 @@ class Document:
             if (self.subword_prefix is not None and
                 token[:len(self.subword_prefix)] == self.subword_prefix):
                 token = token[len(self.subword_prefix):]
+
+            if (self.subword_suffix is not None and
+                token[-len(self.subword_suffix):] == self.subword_suffix):
+                token = token[:-len(self.subword_suffix)]
 
             label = self.etype_to_bio_label(etype, token_idx)
             token_start = text.find(token, search_start_pos_idx)
